@@ -4,7 +4,7 @@ import { useFonts, Nunito_400Regular, Nunito_700Bold } from '@expo-google-fonts/
 
 import theme from './src/theme';
 
-import { Home } from '@screens/Home';
+import { Routes } from './src/routes';
 import { Loading } from '@components/Loading';
 
 export default function App() {
@@ -18,7 +18,7 @@ export default function App() {
         backgroundColor='transparent'
         translucent
       />
-      { fontsLoaded ? <Home /> : <Loading />}
+      { fontsLoaded ? <Routes /> : <Loading />}
     </ThemeProvider>
   );
 }
