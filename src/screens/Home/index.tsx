@@ -1,30 +1,25 @@
-import { useState } from 'react';
-import { View, SectionList } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useState, useCallback } from 'react';
+import { View, SectionList, Alert } from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+
+import { mealRegisterGetAll } from '@storage/meal/mealRegisterGetAll';
+import { MealStorageDTO } from '@storage/meal/MealStorageDTO';
 
 import { Button } from '@components/Button';
 import { HeaderUser } from '@components/HeaderUser';
 import { PercentCard } from '@components/PercentCard';
+import { MealCard } from '@components/MealCard';
 
 import { Container, Text, ListTitle } from './styles';
-import { MealCard } from '@components/MealCard';
+
 
 export function Home() {
 
-    const [meal, setMeal] = useState([
-        {
-            title: '01.01.2023',
-            data: ['Pizza', 'Burger', 'Risoto']
-        },
-        {
-            title: '02.01.2023',
-            data: ['Macarrão', 'Arroz', 'Batata']
-        },
-    ]);
+    const [registers, setRegisters] = useState<MealStorageDTO[]>([]);
 
     const navigation = useNavigation();
 
-    function handleNewMeal() {
+    function handleAddMeal() {
         navigation.navigate('register')
     }
 
@@ -32,9 +27,38 @@ export function Home() {
         navigation.navigate('stats')
     }
 
-    function handleMeal() {
-        navigation.navigate('meal')
+    async function handleCheckInfosMeal(
+        mealName: string, 
+        mealDescription: string, 
+        mealDate: string,
+        mealTime: string,
+        mealIsOnTheDiet: string,
+        ) {
+        navigation.navigate('meal', {
+            name: mealName, 
+            description: mealDescription, 
+            date: mealDate,
+            time: mealTime,
+            isOnTheDiet: mealIsOnTheDiet
+        });
     }
+
+    async function fetchMeals() {
+        try {
+
+            const result = await mealRegisterGetAll();
+            
+            setRegisters(result);
+
+        } catch (error) {
+            console.log(error);
+            Alert.alert('Refeições', 'Não foi possível carregar os registros de refeições.');
+        }
+    }
+
+    useFocusEffect(useCallback(() => {
+        fetchMeals();
+    }, []));
 
     return (
         <Container>
@@ -54,28 +78,35 @@ export function Home() {
                 icon='add'
                 hasIcon
                 text='Nova refeição'
-                onPress={handleNewMeal}
+                onPress={handleAddMeal}
             />
             <SectionList
-                sections={meal}
-                keyExtractor={(item, index) => item + index}
+                sections={registers}
+                keyExtractor={item => item.name}
                 renderItem={({ item }) =>
                     <MealCard
-                        text={item}
+                        time={item.time}
+                        text={item.name}
                         icon='circle'
-                        type='SUCCESS'
-                        onPress={handleMeal}
+                        type={item.isOnTheDiet}
+                        onPress={() => handleCheckInfosMeal(
+                            item.name, 
+                            item.description,
+                            item.date,
+                            item.time,
+                            item.isOnTheDiet
+                            )}
                     />
                 }
                 renderSectionHeader={({ section: { title } }) => (
                     <ListTitle
-                        style={{ marginTop: 40 }}
+                        style={{ marginTop: 32 }}
                     >
                         {title}
                     </ListTitle>
                 )}
                 stickySectionHeadersEnabled={false}
-                SectionSeparatorComponent={() => (<View style={{ marginBottom: 16 }} />)}
+                SectionSeparatorComponent={() => (<View style={{ marginBottom: 8 }} />)}
                 showsVerticalScrollIndicator={false}
             />
         </Container>

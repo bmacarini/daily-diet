@@ -23,7 +23,7 @@ export const ContainerForm = styled.View`
     background-color: ${({ theme }) => theme.COLORS.WHITE}
 `;
 
-export const Form = styled.View`
+export const Form = styled.KeyboardAvoidingView`
     width: 100%;
 `;
 
@@ -44,3 +44,9 @@ export const Title = styled.Text`
 export const SelectContainer = styled.View`
     flex-direction: row;
 `;
+
+/*export const ButtonContainer = styled.View`
+    position: absolute;
+    top: 95%;
+    width: 88%;
+`;*/

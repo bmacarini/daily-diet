@@ -4,13 +4,29 @@ export declare global {
             home: undefined;
             stats: undefined;
             register: undefined;
-            meal: undefined;
-            feedback: undefined;
+            meal: {
+                name: string;
+                description: string;
+                date: string;
+                time: string;
+                isOnTheDiet: string;
+            };
+            feedback: {
+                isOnTheDiet: string;
+            };
             edit: {
-                meal: string;
+                name: string;
+                description: string;
+                date: string;
+                time: string;
+                isOnTheDiet: string;
             };
             delete: {
-                meal: string;
+                name: string;
+                description: string;
+                date: string;
+                time: string;
+                isOnTheDiet: string;
             };
         }
     }

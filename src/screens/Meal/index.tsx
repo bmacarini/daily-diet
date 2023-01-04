@@ -1,27 +1,77 @@
-
-import { useNavigation } from '@react-navigation/native';
-
-import { Container, ContainerBg, ContainerData, Title, Text, Subtitle, ContainerBtns } from './styles';
+// import { useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { HeaderNavigation } from '@components/HeaderNavigation';
 import { Button } from '@components/Button';
 import { Tag } from '@components/Tag';
 
+import { Container, ContainerBg, ContainerData, Title, Text, Subtitle, ContainerBtns } from './styles';
+
+type RouteParams = {
+    name: string;
+    description: string;
+    date: string;
+    time: string;
+    isOnTheDiet: string;
+}
+
+type Props = {
+    mealName: string,
+    mealDescription: string,
+    mealDate: string,
+    mealTime: string,
+    mealIsOnTheDiet: string,
+}
+
+
 export function Meal() {
 
     const navigation = useNavigation();
 
-    function handleEditMeal() {
-        navigation.navigate('edit', {meal: 'Pizza'});
+    const route = useRoute();
+    const {
+        name,
+        description,
+        date,
+        time,
+        isOnTheDiet
+    } = route.params as RouteParams;
+
+    function handleEditMeal(
+        mealName: string,
+        mealDescription: string,
+        mealDate: string,
+        mealTime: string,
+        mealIsOnTheDiet: string,
+    ) {
+        navigation.navigate('edit', {
+            name: mealName,
+            description: mealDescription,
+            date: mealDate,
+            time: mealTime,
+            isOnTheDiet: mealIsOnTheDiet
+        });
     }
 
-    function handleDeleteMeal() {
-        navigation.navigate('delete', {meal: 'Pizza'});
+    function handleDeleteMeal(
+        mealName: string,
+        mealDescription: string,
+        mealDate: string,
+        mealTime: string,
+        mealIsOnTheDiet: string,
+    ) {
+        navigation.navigate('edit', {
+            name: mealName,
+            description: mealDescription,
+            date: mealDate,
+            time: mealTime,
+            isOnTheDiet: mealIsOnTheDiet
+        });
     }
 
     return (
         <Container
-            type='SUCCESS'
+            type={isOnTheDiet}
         >
             <HeaderNavigation
                 icon='arrow-back'
@@ -31,19 +81,19 @@ export function Meal() {
             <ContainerBg>
                 <ContainerData>
                     <Title>
-                        Sanduíche
+                        {name}
                     </Title>
                     <Text>
-                        Sanduíche de pão integral com atum e salada de alface e tomate.
+                        {description}
                     </Text>
                     <Subtitle>
                         Data e hora
                     </Subtitle>
                     <Text>
-                        12/08/2022 às 16:00
+                        {date} às {time}
                     </Text>
-                    <Tag 
-                        type='SUCCESS'
+                    <Tag
+                        type={isOnTheDiet}
 
                     />
                 </ContainerData>
@@ -54,14 +104,26 @@ export function Meal() {
                         type='PRIMARY'
                         hasIcon
                         inAColumn
-                        onPress={handleEditMeal}
+                        onPress={() => handleEditMeal(
+                            name,
+                            description,
+                            date,
+                            time,
+                            isOnTheDiet
+                        )}
                     />
                     <Button
                         text='Excluir refeição'
                         icon='delete-outline'
                         type='SECONDARY'
                         hasIcon
-                        onPress={handleDeleteMeal}
+                        onPress={() => handleDeleteMeal(
+                            name,
+                            description,
+                            date,
+                            time,
+                            isOnTheDiet
+                        )}
                     />
                 </ContainerBtns>
             </ContainerBg>

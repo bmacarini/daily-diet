@@ -2,13 +2,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import styled, { css } from 'styled-components/native';
 
-export type MealTypeStyleProps = 'SUCCESS' | 'FAILURE';
-
-type Props = {
-    type?: MealTypeStyleProps;
+type MealTypeStyleProps = {
+    type?: string;
 }
 
-export const Container = styled(SafeAreaView)<Props>`
+export const Container = styled(SafeAreaView)<MealTypeStyleProps>`
     flex: 1;
     align-items: center;
     padding-top: 24px;

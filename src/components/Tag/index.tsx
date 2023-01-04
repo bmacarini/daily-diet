@@ -1,9 +1,10 @@
 import { MaterialIcons } from '@expo/vector-icons';
 
-import { Container, Icon, Text, TagTypeStyleProps } from './styles';
+import { Container, Icon, Text } from './styles';
 
-type Props = TagTypeStyleProps & {
+type Props = {
     icon?: keyof typeof MaterialIcons.glyphMap;
+    type: string;
 }
 
 export function Tag({ icon = 'circle', type }: Props) {

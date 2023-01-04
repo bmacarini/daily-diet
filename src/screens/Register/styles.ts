@@ -13,8 +13,6 @@ export const ContainerForm = styled.View`
     flex: 1;
     width: 100%;
     border-radius: 20px;
-    align-items: center;
-    justify-content: space-between;
     margin-top: 32px;
     padding-top: 32px;
     padding-right: 24px;
@@ -23,8 +21,9 @@ export const ContainerForm = styled.View`
     background-color: ${({ theme }) => theme.COLORS.WHITE}
 `;
 
-export const Form = styled.View`
+export const Form = styled.KeyboardAvoidingView`
     width: 100%;
+    margin-bottom: 24px;
 `;
 
 export const DateTimeContainer = styled.View`
