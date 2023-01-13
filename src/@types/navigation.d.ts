@@ -5,6 +5,7 @@ export declare global {
             stats: undefined;
             register: undefined;
             meal: {
+                id: string;
                 name: string;
                 description: string;
                 date: string;
@@ -15,6 +16,7 @@ export declare global {
                 isOnTheDiet: string;
             };
             edit: {
+                id: string;
                 name: string;
                 description: string;
                 date: string;
@@ -22,6 +24,7 @@ export declare global {
                 isOnTheDiet: string;
             };
             delete: {
+                id: string;
                 name: string;
                 description: string;
                 date: string;

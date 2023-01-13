@@ -7,7 +7,9 @@ export async function mealRegisterDelete(mealToDelete: MealStorageDTO) {
     try {
         const storedMeals = await mealRegisterGetAll();
 
-        storedMeals.filter(item => item.)
+        const index = storedMeals.findIndex(item => item.title === mealToDelete.title);
+
+        storedMeals[index].data.filter(item => item.id !== mealToDelete.data[index].id);
 
     } catch (error) {
         throw error;

@@ -13,6 +13,7 @@ import { Select } from '@components/Select';
 import { Title, Container, ContainerForm, Form, DateTimeContainer, SelectContainer } from './styles';
 
 type RouteParams = {
+    id: string;
     name: string;
     description: string;
     date: string;
@@ -23,6 +24,7 @@ type RouteParams = {
 export function Edit() {
     const route = useRoute();
     const {
+        id,
         name,
         description,
         date,
@@ -57,6 +59,7 @@ export function Edit() {
         const registeredMeal: MealStorageDTO = {
             title: date,
             data: [{
+                id,
                 name,
                 description,
                 date,
@@ -68,6 +71,7 @@ export function Edit() {
         const editedMeal: MealStorageDTO = {
             title: newDate,
             data: [{
+                id,
                 name: newName,
                 description: newDescription,
                 date: newDate,
@@ -78,7 +82,7 @@ export function Edit() {
 
         await mealRegisterEdit(registeredMeal, editedMeal);
         
-        navigation.goBack();
+        navigation.navigate('home');
     };
 
     return (

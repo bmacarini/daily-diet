@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { View, SectionList, Alert } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
+
 import { mealRegisterGetAll } from '@storage/meal/mealRegisterGetAll';
 import { MealStorageDTO } from '@storage/meal/MealStorageDTO';
 
@@ -28,6 +29,7 @@ export function Home() {
     }
 
     async function handleCheckInfosMeal(
+        mealId: string,
         mealName: string, 
         mealDescription: string, 
         mealDate: string,
@@ -35,6 +37,7 @@ export function Home() {
         mealIsOnTheDiet: string,
         ) {
         navigation.navigate('meal', {
+            id: mealId,
             name: mealName, 
             description: mealDescription, 
             date: mealDate,
@@ -51,7 +54,6 @@ export function Home() {
             setRegisters(result);
 
         } catch (error) {
-            console.log(error);
             Alert.alert('Refeições', 'Não foi possível carregar os registros de refeições.');
         }
     }
@@ -82,7 +84,7 @@ export function Home() {
             />
             <SectionList
                 sections={registers}
-                keyExtractor={item => item.name}
+                keyExtractor={item => item.id}
                 renderItem={({ item }) =>
                     <MealCard
                         time={item.time}
@@ -90,6 +92,7 @@ export function Home() {
                         icon='circle'
                         type={item.isOnTheDiet}
                         onPress={() => handleCheckInfosMeal(
+                            item.id,
                             item.name, 
                             item.description,
                             item.date,

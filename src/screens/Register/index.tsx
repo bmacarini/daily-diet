@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { Alert, TextInput, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import uuid from 'react-native-uuid';
 
 import { mealRegisterCreate } from '@storage/meal/mealRegisterCreate';
 
@@ -46,9 +47,12 @@ export function Register() {
             return Alert.alert('Nova refeição', 'Informe o nome da refeição que quer adicionar.');
         }
 
+        const id = String(uuid.v4());
+
         const newMeal: MealStorageDTO = {
             title: mealDate,
             data: [{
+                id,
                 name: mealName,
                 description: mealDescription,
                 date: mealDate,
@@ -63,7 +67,7 @@ export function Register() {
             navigation.navigate('feedback', { isOnTheDiet: mealOnTheDiet });
 
         } catch (error) {
-            console.error(error);
+            Alert.alert(`${newMeal.data[0].name}`, 'Não foi possível criar essa refeição.');
         }
     }
 

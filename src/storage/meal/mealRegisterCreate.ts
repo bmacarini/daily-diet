@@ -6,6 +6,7 @@ import { MealStorageDTO } from './MealStorageDTO';
 import { dateAlreadyExists } from '@utils/dateAlreadyExists'
 
 export async function mealRegisterCreate(newMeal: MealStorageDTO) {
+
     try {
         const storedMeals =  await mealRegisterGetAll();
 

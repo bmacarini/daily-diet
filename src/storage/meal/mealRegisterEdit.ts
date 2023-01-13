@@ -9,23 +9,39 @@ export async function mealRegisterEdit(registeredMeal: MealStorageDTO, editedMea
 
     try {
         const storedMeals = await mealRegisterGetAll(); // Peguei toda a lista
-        
+
         const isDateAlreadyExists = await dateAlreadyExists(editedMeal); // Verifiquei se a data da edited meal existe
+
+        const index = storedMeals.findIndex(item => item.title === registeredMeal.title); // Encontrei a posição da registered meal dentro da lista. Posição para incluir a edited meal.
+
+        const registeredMealData = registeredMeal.data[0];
+        const editedMealData = editedMeal.data[0];
+
+        const notEditedMeals = storedMeals[index].data.filter(meal => meal.id !== registeredMealData.id);
+
+        const changeIndex = storedMeals.findIndex(item => item.title === editedMealData.date);
 
         if (isDateAlreadyExists) {
 
-            const index = storedMeals.findIndex(item => item.title === registeredMeal.title); // Encontrei a posição da registered meal dentro da lista. Posição para incluir a edited meal.
+            storedMeals[index].data.map(meal => {
+                if (editedMealData.id === meal.id) {
+                    return editedMealData;
+                }
+                return meal;
+            })
 
-            storedMeals[index] = editedMeal;
-
+            storedMeals[index].data = notEditedMeals;
+            storedMeals[changeIndex].data.push(editedMealData);
+            
 
         } else {
+            storedMeals[index].data = notEditedMeals;
             storedMeals.push(editedMeal);
         }
 
-        const storage = JSON.stringify(storedMeals);
+        const filteredStoredMeals = storedMeals.filter( meal => meal.data.length > 0);
 
-        console.log(storage);
+        const storage = JSON.stringify(filteredStoredMeals);
 
         await Asyncstorage.setItem(MEALS_COLLECTION, storage);
 

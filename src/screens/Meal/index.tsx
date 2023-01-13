@@ -1,4 +1,4 @@
-// import { useState } from 'react';
+import { Modal } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { HeaderNavigation } from '@components/HeaderNavigation';
@@ -8,19 +8,12 @@ import { Tag } from '@components/Tag';
 import { Container, ContainerBg, ContainerData, Title, Text, Subtitle, ContainerBtns } from './styles';
 
 type RouteParams = {
+    id: string;
     name: string;
     description: string;
     date: string;
     time: string;
     isOnTheDiet: string;
-}
-
-type Props = {
-    mealName: string,
-    mealDescription: string,
-    mealDate: string,
-    mealTime: string,
-    mealIsOnTheDiet: string,
 }
 
 
@@ -30,6 +23,7 @@ export function Meal() {
 
     const route = useRoute();
     const {
+        id,
         name,
         description,
         date,
@@ -45,6 +39,7 @@ export function Meal() {
         mealIsOnTheDiet: string,
     ) {
         navigation.navigate('edit', {
+            id,
             name: mealName,
             description: mealDescription,
             date: mealDate,
@@ -54,13 +49,15 @@ export function Meal() {
     }
 
     function handleDeleteMeal(
+        id: string,
         mealName: string,
         mealDescription: string,
         mealDate: string,
         mealTime: string,
         mealIsOnTheDiet: string,
     ) {
-        navigation.navigate('edit', {
+        navigation.navigate('delete', {
+            id,
             name: mealName,
             description: mealDescription,
             date: mealDate,
@@ -118,6 +115,7 @@ export function Meal() {
                         type='SECONDARY'
                         hasIcon
                         onPress={() => handleDeleteMeal(
+                            id,
                             name,
                             description,
                             date,
