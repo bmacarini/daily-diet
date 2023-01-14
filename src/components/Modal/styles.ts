@@ -2,7 +2,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import styled, { css } from 'styled-components/native';
 
-export const Container = styled(SafeAreaView)`
+export const Container = styled.View`
     flex: 1;
     align-items: center;
     justify-content: center;
@@ -10,7 +10,9 @@ export const Container = styled(SafeAreaView)`
     background-color: ${({ theme }) => theme.COLORS.OPACITY_25};
 `;
 
-export const DialogContainer = styled.View`
+export const ModalView = styled.View`
+    align-items: center;
+    justify-content: center;
     padding: 24px;
     border-radius: 8px;
     background-color: ${({ theme }) => theme.COLORS.WHITE};

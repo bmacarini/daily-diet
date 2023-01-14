@@ -1,4 +1,4 @@
-import Asyncstorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { mealRegisterGetAll } from './mealRegisterGetAll';
 import { MealStorageDTO } from './MealStorageDTO';
@@ -43,7 +43,7 @@ export async function mealRegisterEdit(registeredMeal: MealStorageDTO, editedMea
 
         const storage = JSON.stringify(filteredStoredMeals);
 
-        await Asyncstorage.setItem(MEALS_COLLECTION, storage);
+        await AsyncStorage.setItem(MEALS_COLLECTION, storage);
 
     } catch (error) {
         throw error;

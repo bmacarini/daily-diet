@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
-import { Alert, TextInput, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
+import { Alert, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
 import uuid from 'react-native-uuid';
 
 import { mealRegisterCreate } from '@storage/meal/mealRegisterCreate';

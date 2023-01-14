@@ -6,7 +6,6 @@ import { Register } from '@screens/Register';
 import { Meal } from '@screens/Meal';
 import { Edit } from '@screens/Edit';
 import { Feedback } from '@screens/Feedback';
-import { Delete } from '@screens/Delete';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -38,10 +37,6 @@ export function AppRoutes() {
             <Screen 
                 name='feedback'
                 component={Feedback}
-            />
-            <Screen 
-                name='delete'
-                component={Delete}
             />
         </Navigator>
     )

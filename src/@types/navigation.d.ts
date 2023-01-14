@@ -23,14 +23,6 @@ export declare global {
                 time: string;
                 isOnTheDiet: string;
             };
-            delete: {
-                id: string;
-                name: string;
-                description: string;
-                date: string;
-                time: string;
-                isOnTheDiet: string;
-            };
         }
     }
 }
