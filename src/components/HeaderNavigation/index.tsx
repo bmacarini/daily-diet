@@ -20,7 +20,7 @@ export function HeaderNavigation({ icon, title, type, isEditScreen, ...rest }: P
     }
 
     function handleGoMealScreen() {
-        navigation.navigate('meal');
+        navigation.goBack();
     }
 
     return (

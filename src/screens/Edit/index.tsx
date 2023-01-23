@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import { TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useState, useCallback } from 'react';
+import { TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 
 import { MealStorageDTO } from '@storage/meal/MealStorageDTO';
 import { mealRegisterEdit } from '@storage/meal/mealRegisterEdit';
+import { mealRegisterGetAll } from '@storage/meal/mealRegisterGetAll';
 
 import { Button } from '@components/Button';
 import { HeaderNavigation } from '@components/HeaderNavigation';
@@ -81,9 +82,32 @@ export function Edit() {
         }
 
         await mealRegisterEdit(registeredMeal, editedMeal);
-        
-        navigation.navigate('home');
+
+        navigation.navigate('meal', {
+            id,
+            name: newName,
+            description: newDescription,
+            date: newDate,
+            time: newTime,
+            isOnTheDiet: newMealOnTheDiet
+        });
     };
+
+    async function fetchRegisters() {
+        try {
+            await mealRegisterGetAll();
+        } catch (error) {
+            Alert.alert('Refeições', 'Não foi possível carregar os registros de refeições.');
+        }
+    }
+
+    function goHome() {
+        navigation.navigate('home')
+    }
+
+    useFocusEffect(useCallback(() => {
+        fetchRegisters();
+    }, []));
 
     return (
         <Container>
@@ -103,7 +127,7 @@ export function Edit() {
                         <Input
                             title='Nome'
                             defaultValue={name}
-                            onChangeText={ newName => setNewName(newName)}
+                            onChangeText={newName => setNewName(newName)}
                             style={{ marginBottom: 24 }}
                             isActive={isFocusName}
                             onFocus={() => (
@@ -116,7 +140,7 @@ export function Edit() {
                         <Input
                             title='Descrição'
                             defaultValue={description}
-                            onChangeText={ newDescription => setNewDescription(newDescription)}
+                            onChangeText={newDescription => setNewDescription(newDescription)}
                             type='DESCRIPTION'
                             style={{ marginBottom: 24 }}
                             textAlignVertical='top'
@@ -133,7 +157,7 @@ export function Edit() {
                             <Input
                                 title='Data'
                                 defaultValue={date}
-                                onChangeText={ newDate => setNewDate(newDate)}
+                                onChangeText={newDate => setNewDate(newDate)}
                                 style={{ marginRight: 10, flex: 1 }}
                                 isActive={isFocusDate}
                                 onFocus={() => (
@@ -146,7 +170,7 @@ export function Edit() {
                             <Input
                                 title='Hora'
                                 defaultValue={time}
-                                onChangeText={ newTime => setNewTime(newTime)}
+                                onChangeText={newTime => setNewTime(newTime)}
                                 style={{ marginLeft: 10, flex: 1 }}
                                 isActive={isFocusTime}
                                 onFocus={() => (

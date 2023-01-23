@@ -17,8 +17,6 @@ export default {
         GRAY_300: '#DDDEDF',
         GRAY_200: '#EFF0F0',
         GRAY_100: '#FAFAFA',
-
-        OPACITY_25: 'rgba(0, 0, 0, 0.25)',
     },
 
     FONT_FAMILY: {

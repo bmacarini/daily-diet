@@ -8,11 +8,11 @@ import { dateAlreadyExists } from '@utils/dateAlreadyExists';
 export async function mealRegisterEdit(registeredMeal: MealStorageDTO, editedMeal: MealStorageDTO) {
 
     try {
-        const storedMeals = await mealRegisterGetAll(); // Peguei toda a lista
+        const storedMeals = await mealRegisterGetAll();
 
-        const isDateAlreadyExists = await dateAlreadyExists(editedMeal); // Verifiquei se a data da edited meal existe
+        const isDateAlreadyExists = await dateAlreadyExists(editedMeal);
 
-        const index = storedMeals.findIndex(item => item.title === registeredMeal.title); // Encontrei a posição da registered meal dentro da lista. Posição para incluir a edited meal.
+        const index = storedMeals.findIndex(item => item.title === registeredMeal.title);
 
         const registeredMealData = registeredMeal.data[0];
         const editedMealData = editedMeal.data[0];
@@ -20,6 +20,8 @@ export async function mealRegisterEdit(registeredMeal: MealStorageDTO, editedMea
         const notEditedMeals = storedMeals[index].data.filter(meal => meal.id !== registeredMealData.id);
 
         const changeIndex = storedMeals.findIndex(item => item.title === editedMealData.date);
+
+        const mealIndex = storedMeals[index].data.findIndex( meal => meal.id === registeredMealData.id);
 
         if (isDateAlreadyExists) {
 
@@ -31,7 +33,8 @@ export async function mealRegisterEdit(registeredMeal: MealStorageDTO, editedMea
             })
 
             storedMeals[index].data = notEditedMeals;
-            storedMeals[changeIndex].data.push(editedMealData);
+            //storedMeals[changeIndex].data.push(editedMealData);
+            storedMeals[changeIndex].data.splice(mealIndex, 0, editedMealData);
             
 
         } else {

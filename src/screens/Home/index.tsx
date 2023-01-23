@@ -2,7 +2,6 @@ import { useState, useCallback } from 'react';
 import { View, SectionList, Alert } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
-
 import { mealRegisterGetAll } from '@storage/meal/mealRegisterGetAll';
 import { MealStorageDTO } from '@storage/meal/MealStorageDTO';
 
@@ -17,6 +16,7 @@ import { Container, Text, ListTitle } from './styles';
 export function Home() {
 
     const [registers, setRegisters] = useState<MealStorageDTO[]>([]);
+    const [percent, setPercent] = useState(0)
 
     const navigation = useNavigation();
 
@@ -30,16 +30,16 @@ export function Home() {
 
     async function handleCheckInfosMeal(
         mealId: string,
-        mealName: string, 
-        mealDescription: string, 
+        mealName: string,
+        mealDescription: string,
         mealDate: string,
         mealTime: string,
         mealIsOnTheDiet: string,
-        ) {
+    ) {
         navigation.navigate('meal', {
             id: mealId,
-            name: mealName, 
-            description: mealDescription, 
+            name: mealName,
+            description: mealDescription,
             date: mealDate,
             time: mealTime,
             isOnTheDiet: mealIsOnTheDiet
@@ -49,9 +49,18 @@ export function Home() {
     async function fetchMeals() {
         try {
 
-            const result = await mealRegisterGetAll();
-            
-            setRegisters(result);
+            const storedMeals = await mealRegisterGetAll();
+            setRegisters(storedMeals);
+
+            const dataOnTheDiet = storedMeals.filter(register => register.data.find(meal => meal.isOnTheDiet === 'SUCCESS'));
+
+            const dataOutOfTheDiet = storedMeals.filter(register => register.data.find(meal => meal.isOnTheDiet === 'FAILURE'));
+
+            const totalOfMeals = dataOnTheDiet.length + dataOutOfTheDiet.length;
+
+            const totalPercent = (dataOnTheDiet.length / totalOfMeals * 100);
+
+            totalOfMeals === 0 ? setPercent(0) : setPercent(totalPercent);
 
         } catch (error) {
             Alert.alert('Refeições', 'Não foi possível carregar os registros de refeições.');
@@ -65,13 +74,23 @@ export function Home() {
     return (
         <Container>
             <HeaderUser />
-            <PercentCard
-                title='90,86%'
-                text='das refeições dentro da dieta'
-                icon='north-east'
-                style={{ marginBottom: 40 }}
-                onPress={handlePercentCard}
-            />
+            {percent >= 50 ?
+                <PercentCard
+                    title={`${percent.toFixed(2)}%`}
+                    text='das refeições dentro da dieta'
+                    icon='north-east'
+                    style={{ marginBottom: 40 }}
+                    onPress={handlePercentCard}
+                /> :
+                <PercentCard
+                    title={`${percent.toFixed(2)}%`}
+                    text='das refeições dentro da dieta'
+                    icon='north-east'
+                    style={{ marginBottom: 40 }}
+                    onPress={handlePercentCard}
+                    type='FAILURE'
+                />
+            }
             <Text>
                 Refeições
             </Text>
@@ -93,12 +112,12 @@ export function Home() {
                         type={item.isOnTheDiet}
                         onPress={() => handleCheckInfosMeal(
                             item.id,
-                            item.name, 
+                            item.name,
                             item.description,
                             item.date,
                             item.time,
                             item.isOnTheDiet
-                            )}
+                        )}
                     />
                 }
                 renderSectionHeader={({ section: { title } }) => (

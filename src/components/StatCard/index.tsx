@@ -2,7 +2,7 @@ import { ViewProps } from 'react-native';
 import { Container, Title, Text, StatCardTypeStyleProps } from './styles';
 
 type Props = ViewProps & {
-    title: string;
+    title: number;
     text: string;
     type: StatCardTypeStyleProps;
 }

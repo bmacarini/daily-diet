@@ -1,7 +1,6 @@
 import { StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components/native';
 import { useFonts, Nunito_400Regular, Nunito_700Bold } from '@expo-google-fonts/nunito';
-import Asyncstorage from '@react-native-async-storage/async-storage';
 
 import theme from './src/theme';
 
@@ -9,7 +8,7 @@ import { Routes } from './src/routes';
 import { Loading } from '@components/Loading';
 
 export default function App() {
-  //Asyncstorage.clear();
+
   const [fontsLoaded] = useFonts({ Nunito_400Regular, Nunito_700Bold });
 
   return (

@@ -12,9 +12,11 @@ export async function mealRegisterCreate(newMeal: MealStorageDTO) {
 
         const isDateAlreadyExists = await dateAlreadyExists(newMeal);
 
+        const newMealData = newMeal.data[0];
+
         if (isDateAlreadyExists) {
-            const index = storedMeals.findIndex((item) => item.title === newMeal.title);
-            storedMeals[index].data.push(newMeal.data[index]);
+            const index = storedMeals.findIndex(item => item.title === newMeal.title);
+            storedMeals[index].data.push(newMealData);
 
         } else {
             storedMeals.push(newMeal);
